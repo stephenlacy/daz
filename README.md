@@ -1,6 +1,10 @@
 # daz
 [![GoDoc](https://godoc.org/github.com/stevelacy/daz?status.svg)](https://godoc.org/github.com/stevelacy/daz)![Go](https://github.com/stevelacy/daz/workflows/Go/badge.svg)
 
+<p align="center">
+	<img src="https://github.com/stevelacy/daz/raw/master/daz.go.png" width="300">
+</p>
+
 > Composable HTML components in Golang
 
 ![daz carbon example](./carbon.png)
