@@ -1,11 +1,12 @@
 # daz
-[![GoDoc](https://godoc.org/github.com/stevelacy/daz?status.svg)](https://godoc.org/github.com/stevelacy/daz)![Go](https://github.com/stevelacy/daz/workflows/Go/badge.svg)
+> Composable HTML components in Golang
 
 <p align="center">
 	<img src="https://github.com/stevelacy/daz/raw/master/daz.go.png" width="300">
 </p>
 
-> Composable HTML components in Golang
+[![GoDoc](https://godoc.org/github.com/stevelacy/daz?status.svg)](https://godoc.org/github.com/stevelacy/daz)![Go](https://github.com/stevelacy/daz/workflows/Go/badge.svg)
+
 
 ![daz carbon example](./carbon.png)
 
