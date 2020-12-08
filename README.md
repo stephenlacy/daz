@@ -16,21 +16,42 @@ Also enables template-free server-side rendered components with support for nest
 
 A component can be created and used with simple functions:
 ```golang
-	element := H("div", Attr{"class": "bg-grey-50"})
+// Example prop for a component
+type User struct {
+	Name string
+	// ...
+}
 
-	html := H("html", element)
+func MyComponenet(user User) func() string {
+	return H(
+		"div",
+		Attr{"class": "bg-grey-50"},
+		user.Name,
+	)
+}
 
-	w.Write([]byte(html()))
+func Root() func() string {
+	user := User{Name: "Daz"}
+	html := H("html", MyComponenet(user))
+}
+
+// And used in a handler:
+
+func Handler(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte(Root()))
+}
 ```
 
 Lists can be easily created without needing to embed a `range / end` in a template:
 ```golang
-	items := []func() string{H("li", "item one"), H("li", "item two")}
+items := []func() string{
+	H("li", "item one"),
+	H("li", "item two"),
+}
 
-	element := H("ul", Attr{"class": "bg-grey-50"}, items)
+element := H("ul", Attr{"class": "bg-grey-50"}, items)
 
-	div := H("div", element)
-
+div := H("div", element)
 ```
 
 

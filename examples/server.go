@@ -7,6 +7,11 @@ import (
 	. "github.com/stevelacy/daz"
 )
 
+// User is an example prop for a component
+type User struct {
+	Name string
+}
+
 func main() {
 	http.HandleFunc("/", rootHandler)
 	fmt.Println("listening on :3000")
@@ -14,6 +19,11 @@ func main() {
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
+	title := "Example Server"
+	description := "Welcome to daz"
+
+	user := User{Name: "Daz"}
+
 	links := H("link", Attr{
 		"href": "https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css",
 		"rel":  "stylesheet",
@@ -27,31 +37,36 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 		}),
 	}
 
-	head := H("head", H("title", "Example Server"), meta, links)
+	head := H("head", H("title", title), meta, links)
 	style := Attr{"style": "background: #efefef"}
 
-	body := H("body", style, nested())
+	body := H(
+		"body",
+		style,
+		AppComponent(user, description),
+	)
 	html := H("html", head, body)
 	w.Write([]byte(html()))
 }
 
-func navItems() []func() string {
+func navItems(user User) []func() string {
 	// get itmes from somewhere such as a database
 	items := []func() string{H("li", "item one"), H("li", "item two")}
 
 	// example runtime modification
-	lastElement := H("li", "last item")
+	lastElement := H("li", user.Name)
 	items = append(items, lastElement)
 	return items
 }
 
-func nested() func() string {
-	nav := H("nav", navItems())
+// AppComponent is a daz component. It returns a daz.H func
+func AppComponent(user User, description string) func() string {
+	nav := H("nav", navItems(user))
 	return H(
 		"div", Attr{"class": "bg-grey-50"},
 		H("div", Attr{"class": "max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between"},
 			H("h2", Attr{"class": "text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl"},
-				H("span", Attr{"class": "block"}, "Welcome to daz"),
+				H("span", Attr{"class": "block"}, description),
 				H("span", Attr{"class": "block text-indigo-600"}, "This example uses Tailwind CSS"),
 			),
 			H("div", Attr{"class": "mt-8 lex lg:mt-0 lg:flex-shrink-0"},
