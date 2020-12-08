@@ -14,7 +14,10 @@ func main() {
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	links := H("link", Attr{"href": "https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css", "rel": "stylesheet"})
+	links := H("link", Attr{
+		"href": "https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css",
+		"rel":  "stylesheet",
+	})
 
 	meta := []func() string{
 		H("meta", Attr{"charset": "UTF-8"}),
@@ -57,6 +60,11 @@ func nested() func() string {
 			),
 			H("div", Attr{"class": "ml-3 inline-flex rounded-md shadow"},
 				H("a", Attr{"href": "#", "class": "inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50"}, "Learn More")),
+			H("div",
+				Attr{"class": "mt-1 flex rounded-md shadow-sm"},
+				H("span", Attr{"class": "inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"}, "http://"),
+				H("input", Attr{"type": "text", "name": "test", "class": "focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300", "placeholder": "input's value"}),
+			),
 			nav,
 		),
 	)
