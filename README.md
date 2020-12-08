@@ -27,7 +27,7 @@ Lists can be easily created without needing to embed a `range / end` in a templa
 ```golang
 	items := []func() string{H("li", "item one"), H("li", "item two")}
 
-	element := H("ul", Attr{"class": "bg-grey-50"})
+	element := H("ul", Attr{"class": "bg-grey-50"}, items)
 
 	div := H("div", element)
 
