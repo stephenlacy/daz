@@ -1,5 +1,5 @@
 # daz
-[![GoDoc](https://godoc.org/github.com/stevelacy/daz?status.svg)](https://godoc.org/github.com/stevelacy/daz)
+[![GoDoc](https://godoc.org/github.com/stevelacy/daz?status.svg)](https://godoc.org/github.com/stevelacy/daz)![Go](https://github.com/stevelacy/daz/workflows/Go/badge.svg)
 
 > Composable HTML components in Golang
 
