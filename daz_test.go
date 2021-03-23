@@ -8,7 +8,8 @@ var fixture1 = "<div class='app view'><header>test 1<nav>Welcome</nav></header><
 var fixture2 = "<div>onetwothree</div>"
 var fixture3 = "<div><div>one</div>one<>text</></div>"
 var fixture4 = "<div class='bg-grey-50' data-id='div-1'>content</div>"
-var fixture5 = "<div>O&#39;Brian<input type='text' value='input value&#39;s'></input></div>"
+var fixture5 = "<div>O&#39;Brian<input type='text' value='input value&#39;s' /></div>"
+var fixture6 = "<div><img src='https://example.com/image.png' /><br /></div>"
 
 func TestBasicRender(t *testing.T) {
 	attrs := Attr{"class": "app view"}
@@ -60,6 +61,14 @@ func TestQuoted(t *testing.T) {
 	res := root()
 	if res != fixture5 {
 		t.Errorf("got: %v wanted: %v", res, fixture5)
+	}
+}
+
+func TestSelfClosing(t *testing.T) {
+	root := H("div", H("img", Attr{"src": "https://example.com/image.png"}), H("br"))
+	res := root()
+	if res != fixture6 {
+		t.Errorf("got: %v wanted: %v", res, fixture6)
 	}
 }
 

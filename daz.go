@@ -6,6 +6,17 @@ import (
 	"strings"
 )
 
+var selfClosingTags = map[string]int{
+	"area":  1,
+	"br":    1,
+	"hr":    1,
+	"image": 1,
+	"input": 1,
+	"img":   1,
+	"link":  1,
+	"meta":  1,
+}
+
 // Attr is a HTML element attribute
 // <a href="#"> => Attr{"href": "#"}
 type Attr map[string]string
@@ -33,7 +44,11 @@ func H(el string, attrs ...interface{}) func() string {
 		}
 	}
 	return func() string {
-		return "<" + escape(el) + attributes + ">" + strings.Join(contents, "") + "</" + escape(el) + ">"
+		elc := escape(el)
+		if _, ok := selfClosingTags[elc]; ok {
+			return "<" + elc + attributes + " />"
+		}
+		return "<" + elc + attributes + ">" + strings.Join(contents, "") + "</" + elc + ">"
 	}
 }
 
