@@ -10,6 +10,7 @@ var fixture3 = "<div><div>one</div>one<>text</></div>"
 var fixture4 = "<div class='bg-grey-50' data-id='div-1'>content</div>"
 var fixture5 = "<div>O&#39;Brian<input type='text' value='input value&#39;s' /></div>"
 var fixture6 = "<div><img src='https://example.com/image.png' /><br /></div>"
+var fixture7 = "<div>&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;</div>"
 
 func TestBasicRender(t *testing.T) {
 	attrs := Attr{"class": "app view"}
@@ -69,6 +70,14 @@ func TestSelfClosing(t *testing.T) {
 	res := root()
 	if res != fixture6 {
 		t.Errorf("got: %v wanted: %v", res, fixture6)
+	}
+}
+
+func TestXSS1(t *testing.T) {
+	root := H("div", "<script>alert('xss')</script>")
+	res := root()
+	if res != fixture7 {
+		t.Errorf("got: %v wanted: %v", res, fixture7)
 	}
 }
 
