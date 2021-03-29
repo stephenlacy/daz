@@ -11,6 +11,7 @@ var fixture4 = "<div class='bg-grey-50' data-id='div-1'>content</div>"
 var fixture5 = "<div>O&#39;Brian<input type='text' value='input value&#39;s' /></div>"
 var fixture6 = "<div><img src='https://example.com/image.png' /><br /></div>"
 var fixture7 = "<div>&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;</div>"
+var fixture8 = "<div><script>alert('xss')</script></div>"
 
 func TestBasicRender(t *testing.T) {
 	attrs := Attr{"class": "app view"}
@@ -33,11 +34,23 @@ func TestStringItems(t *testing.T) {
 	}
 }
 
-func TestItems(t *testing.T) {
+func TestItems1(t *testing.T) {
 	one := H("div", "one")
 	two := func() string { return "one" }
 	three := H("", "text")
-	items := []func() string{one, two, three}
+	items := []HTML{one, two, three}
+
+	root := H("div", items)
+	res := root()
+	if res != fixture3 {
+		t.Errorf("got: %v wanted: %v", res, fixture3)
+	}
+}
+func TestItems2(t *testing.T) {
+	one := H("div", "one")
+	two := func() string { return "one" }
+	three := H("", "text")
+	items := []HTML{one, two, three}
 
 	root := H("div", items)
 	res := root()
@@ -78,6 +91,15 @@ func TestXSS1(t *testing.T) {
 	res := root()
 	if res != fixture7 {
 		t.Errorf("got: %v wanted: %v", res, fixture7)
+	}
+}
+
+func TestUnsafeContent(t *testing.T) {
+	injection := "<script>alert('xss')</script>"
+	root := H("div", UnsafeContent(injection))
+	res := root()
+	if res != fixture8 {
+		t.Errorf("got: %v wanted: %v", res, fixture8)
 	}
 }
 

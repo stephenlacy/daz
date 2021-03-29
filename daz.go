@@ -21,8 +21,20 @@ var selfClosingTags = map[string]int{
 // <a href="#"> => Attr{"href": "#"}
 type Attr map[string]string
 
+type HTML func() string
+
+// dangerous contents type
+type dangerousContents func() (string, bool)
+
+// UnsafeContent allows injection of JS or HTML from functions
+func UnsafeContent(str string) dangerousContents {
+	return func() (string, bool) {
+		return str, true
+	}
+}
+
 // H is the base HTML func
-func H(el string, attrs ...interface{}) func() string {
+func H(el string, attrs ...interface{}) HTML {
 	contents := []string{}
 	attributes := ""
 	for _, v := range attrs {
@@ -34,11 +46,16 @@ func H(el string, attrs ...interface{}) func() string {
 		case []string:
 			children := strings.Join(v, "")
 			contents = append(contents, escape(children))
-		case []func() string:
+		case []HTML:
 			children := subItems(v)
 			contents = append(contents, children)
-		case func() string:
+		case HTML:
 			contents = append(contents, v())
+		case dangerousContents:
+			t, _ := v()
+			contents = append(contents, t)
+		case func() string:
+			contents = append(contents, escape(v()))
 		default:
 			contents = append(contents, escape(fmt.Sprintf("%v", v)))
 		}
@@ -56,7 +73,7 @@ func escape(str string) string {
 	return html.EscapeString(str)
 }
 
-func subItems(attrs []func() string) string {
+func subItems(attrs []HTML) string {
 	res := []string{}
 	for _, v := range attrs {
 		res = append(res, v())
