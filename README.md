@@ -83,3 +83,13 @@ Attr{
 	"onClick": "javascriptFunc()",
 }
 ```
+
+#### func `UnsafeContent`
+
+This will bypass HTML sanitization and allow for direct injecting
+```golang
+
+injection := "<script>alert('xss')</script>"
+root := H("div", UnsafeContent(injection))
+// <script>alert('xss')</script>
+```
