@@ -29,7 +29,7 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 		"rel":  "stylesheet",
 	})
 
-	meta := []func() string{
+	meta := []HTML{
 		H("meta", Attr{"charset": "UTF-8"}),
 		H("meta", Attr{
 			"name":    "viewport",
@@ -49,9 +49,9 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(html()))
 }
 
-func navItems(user User) []func() string {
+func navItems(user User) []HTML {
 	// get itmes from somewhere such as a database
-	items := []func() string{H("li", "item one"), H("li", "item two")}
+	items := []HTML{H("li", "item one"), H("li", "item two")}
 
 	// example runtime modification
 	lastElement := H("li", user.Name)
@@ -60,7 +60,7 @@ func navItems(user User) []func() string {
 }
 
 // AppComponent is a daz component. It returns a daz.H func
-func AppComponent(user User, description string) func() string {
+func AppComponent(user User, description string) HTML {
 	nav := H("nav", navItems(user))
 	return H(
 		"div", Attr{"class": "bg-grey-50"},
