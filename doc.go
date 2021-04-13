@@ -18,7 +18,7 @@ Basic usage:
 Lists can be easily created without needing to embed a `range / end` in a template:
 
 
-	items := []func() string{H("li", "item one"), H("li", "item two")}
+	items := []HTML{H("li", "item one"), H("li", "item two")}
 
 	element := H("ul", Attr{"class": "bg-grey-50"})
 
