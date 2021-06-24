@@ -22,7 +22,7 @@ type User struct {
 	// ...
 }
 
-func MyComponenet(user User) func() string {
+func MyComponenet(user User) HTML {
 	return H(
 		"div",
 		Attr{"class": "bg-grey-50"},
@@ -30,15 +30,15 @@ func MyComponenet(user User) func() string {
 	)
 }
 
-func Root() func() string {
+func Root() HTML {
 	user := User{Name: "Daz"}
-	html := H("html", MyComponenet(user))
+	return H("html", MyComponenet(user))
 }
 
 // And used in a handler:
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte(Root()))
+	w.Write([]byte(Root()()))
 }
 ```
 
