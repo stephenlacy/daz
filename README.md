@@ -44,7 +44,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 Lists can be easily created without needing to embed a `range / end` in a template:
 ```golang
-items := []func() string{
+items := []HTML{
 	H("li", "item one"),
 	H("li", "item two"),
 }
