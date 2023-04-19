@@ -22,7 +22,7 @@ type User struct {
 	// ...
 }
 
-func MyComponenet(user User) HTML {
+func MyComponent(user User) HTML {
 	return H(
 		"div",
 		Attr{"class": "bg-grey-50"},
@@ -32,7 +32,7 @@ func MyComponenet(user User) HTML {
 
 func Root() HTML {
 	user := User{Name: "Daz"}
-	return H("html", MyComponenet(user))
+	return H("html", MyComponent(user))
 }
 
 // And used in a handler:
